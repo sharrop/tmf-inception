@@ -158,6 +158,33 @@ This API is proposed as a **new standalone API** that extends the capabilities o
 - **TMF654 Prepay Balance Management API**: For voucher redemption and balance updates
 - **TMF637 Product Inventory API**: For voucher lifecycle state management
 
+#### 1.4.5 ODA Component Architecture Integration
+
+Based on the [TM Forum ODA Components Map](https://www.tmforum.org/oda/directory/components-map), the Voucher Management API would integrate with the ODA Component architecture as follows:
+
+**Primary Implementing Component**:
+- **Account and Balance Management Component**: This component would most likely expose the Voucher Management API as it specializes in managing financial accounts, stored value accounts, and balance operations. Given that vouchers are positioned as digital payment instruments/financial assets, this component provides the natural home for voucher lifecycle management capabilities.
+
+**Alternative Implementing Component**:
+- **Payment and Settlement Management Component**: Could also potentially expose this API, particularly for the payment instrument aspects of voucher management and integration with payment processing workflows.
+
+**Components Using Voucher Management API as a Dependent API**:
+
+- **Customer Management Component**: Would depend on the Voucher Management API for customer-specific voucher distribution, redemption history tracking, and loyalty program management
+- **Product Catalog Management Component**: Would integrate for voucher-creation services offered as products to business customers (enterprise voucher programs)
+- **Sales and Ordering Management Component**: Would depend on the API for processing voucher orders and managing voucher distribution workflows
+- **Billing and Revenue Management Component**: Would integrate for voucher redemption impact on customer bills, revenue recognition, and financial reporting
+- **Partner Management Component**: Would depend on the API for managing voucher distribution through partner channels and settlement processes
+- **Digital Channel Management Component**: Would integrate for voucher distribution and redemption through digital customer touchpoints (mobile apps, web portals)
+- **Loyalty Management Component** (if separate): Would depend on voucher creation and redemption for loyalty reward programs
+
+**Cross-Component Integration Points**:
+- **Identity and Access Management Component**: For voucher security and fraud prevention
+- **Data Management and Analytics Component**: For voucher usage analytics and campaign performance measurement
+- **Process Automation Component**: For orchestrating complex voucher lifecycle workflows across multiple components
+
+This component mapping ensures that voucher management capabilities are appropriately distributed across the ODA architecture while maintaining clear separation of concerns and avoiding functional duplication.
+
 ## 2. Business Domain
 
 Within the TM Forum domain model, this API most likely sits within the **Financial Account Management Domain**, specifically focusing on **Digital Asset** and **Stored Value Account** management capabilities. The API manages digital payment instruments that integrate with product purchasing and billing processes, making it a critical component for payment processing and financial transaction management in telecommunications services.
