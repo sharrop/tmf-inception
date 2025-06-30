@@ -163,25 +163,23 @@ This API is proposed as a **new standalone API** that extends the capabilities o
 Based on the [TM Forum ODA Components Map](https://www.tmforum.org/oda/directory/components-map), the Voucher Management API would integrate with the ODA Component architecture as follows:
 
 **Primary Implementing Component**:
-- **Account and Balance Management Component**: This component would most likely expose the Voucher Management API as it specializes in managing financial accounts, stored value accounts, and balance operations. Given that vouchers are positioned as digital payment instruments/financial assets, this component provides the natural home for voucher lifecycle management capabilities.
+- **Billing Account Management Component (TMFC002)**: This component would most likely expose the Voucher Management API as it specializes in managing billing accounts, prepaid balances, and stored value accounts. Given that vouchers are positioned as digital payment instruments/financial assets, this component provides the natural home for voucher lifecycle management capabilities.
 
 **Alternative Implementing Component**:
-- **Payment and Settlement Management Component**: Could also potentially expose this API, particularly for the payment instrument aspects of voucher management and integration with payment processing workflows.
+- **Payment Management Component (TMFC007)**: Could also potentially expose this API, particularly for the payment instrument aspects of voucher management and integration with payment processing workflows.
 
 **Components Using Voucher Management API as a Dependent API**:
 
-- **Customer Management Component**: Would depend on the Voucher Management API for customer-specific voucher distribution, redemption history tracking, and loyalty program management
-- **Product Catalog Management Component**: Would integrate for voucher-creation services offered as products to business customers (enterprise voucher programs)
-- **Sales and Ordering Management Component**: Would depend on the API for processing voucher orders and managing voucher distribution workflows
-- **Billing and Revenue Management Component**: Would integrate for voucher redemption impact on customer bills, revenue recognition, and financial reporting
-- **Partner Management Component**: Would depend on the API for managing voucher distribution through partner channels and settlement processes
-- **Digital Channel Management Component**: Would integrate for voucher distribution and redemption through digital customer touchpoints (mobile apps, web portals)
-- **Loyalty Management Component** (if separate): Would depend on voucher creation and redemption for loyalty reward programs
+- **Customer Management Component (TMFC001)**: Would depend on the Voucher Management API for customer-specific voucher distribution, redemption history tracking, and loyalty program management
+- **Product Catalog Management Component (TMFC003)**: Would integrate for voucher-creation services offered as products to business customers (enterprise voucher programs)
+- **Product Order Management Component (TMFC004)**: Would depend on the API for processing voucher orders and managing voucher distribution workflows
+- **Billing Management Component (TMFC006)**: Would integrate for voucher redemption impact on customer bills, revenue recognition, and financial reporting
+- **Partner Management Component (TMFC008)**: Would depend on the API for managing voucher distribution through partner channels and settlement processes
+- **Channel Management Component (TMFC009)**: Would integrate for voucher distribution and redemption through digital customer touchpoints (mobile apps, web portals)
 
 **Cross-Component Integration Points**:
-- **Identity and Access Management Component**: For voucher security and fraud prevention
-- **Data Management and Analytics Component**: For voucher usage analytics and campaign performance measurement
-- **Process Automation Component**: For orchestrating complex voucher lifecycle workflows across multiple components
+- **Identity Management Component (TMFC015)**: For voucher security and fraud prevention
+- **Process Management Component (TMFC016)**: For orchestrating complex voucher lifecycle workflows across multiple components
 
 This component mapping ensures that voucher management capabilities are appropriately distributed across the ODA architecture while maintaining clear separation of concerns and avoiding functional duplication.
 
