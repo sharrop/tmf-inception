@@ -44,15 +44,22 @@ In the telecommunications industry context, this API would support several criti
 
 #### 1.3.1 What is the primary information model entity
 
-The primary information model entity aligns with the **Product** domain from the TM Forum Information Model (GB922) R24.5. Specifically, vouchers represent a form of **Product Offering** that can be purchased, distributed, and consumed by customers.
+The primary information model entity aligns with the **Financial Account** domain from the TM Forum Information Model (GB922) R24.5, specifically as a specialized form of **Stored Value Account** or **Digital Asset**.
+
+This positioning resolves the conceptual relationship with TMF670 Payment Method API by recognizing that vouchers are fundamentally **digital value instruments** rather than traditional product offerings:
 
 Within the GB922 framework, the Voucher Management API primarily relates to:
-- **Product Offering**: Vouchers are product offerings that can be purchased and consumed
-- **Product Instance**: Each individual voucher represents a product instance with specific attributes and lifecycle states
-- **Product Order**: Voucher creation and distribution processes align with product ordering workflows
-- **Billing Account**: Voucher redemption directly impacts customer billing accounts and balance management
+- **Financial Account**: Vouchers represent stored value accounts with specific redemption rules and constraints
+- **Digital Asset**: Each voucher is a digital asset with monetary or service value that can be transferred and redeemed
+- **Payment Instrument**: Vouchers function as payment instruments that can be applied against billing accounts
+- **Balance Management**: Voucher values integrate with account balance and credit management systems
 
-The voucher entity extends the standard product model to include specific attributes such as voucher codes, expiration dates, redemption constraints, and distribution channel information.
+**Clarification of Voucher vs Product Offering Relationship**:
+- **Voucher Creation Services**: The *service* of creating and managing vouchers may be offered as a Product Offering to business customers (e.g., enterprise voucher programs)
+- **Vouchers Themselves**: Individual vouchers are digital value instruments (financial assets) that serve as payment methods, not products to be sold to end customers
+- **Voucher Distribution**: The mechanism for distributing vouchers (physical cards, digital codes) may involve Product Offerings, but the voucher value itself remains a financial instrument
+
+This approach aligns vouchers with their natural role as payment instruments in TMF670 while providing comprehensive lifecycle management capabilities.
 
 #### 1.3.2 What is the Primary Business Process
 
@@ -75,45 +82,50 @@ Additionally, the API integrates with:
 This API proposal **extends** existing TM Forum Open-API specifications rather than superseding them. Key relationships include:
 
 **Extends**:
-- **TMF620 Product Catalog Management API**: Vouchers represent specialized product offerings that extend the standard product catalog model
-- **TMF622 Product Ordering API**: Voucher creation and distribution processes extend product ordering workflows
-- **TMF637 Product Inventory API**: Voucher lifecycle management extends product instance tracking capabilities
+- **TMF654 Prepay Balance Management API**: Vouchers represent specialized stored value accounts that extend prepaid balance management capabilities
+- **TMF666 Account Management API**: Voucher accounts extend general account management with specific redemption rules and constraints
+- **TMF670 Payment Method API**: Provides the payment instrument management that TMF670 references during transactions
 
 **Integrates with**:
 - **TMF632 Party Management API**: For customer and partner identification in voucher transactions
 - **TMF635 Usage Management API**: For tracking voucher usage and consumption patterns
 - **TMF678 Customer Bill Management API**: For voucher redemption impact on customer billing
-- **TMF670 Payment Method API**: Critical integration for voucher-based payment processing
+- **TMF620 Product Catalog Management API**: For voucher creation services offered to business customers
+- **TMF622 Product Ordering API**: For ordering voucher creation and management services
 
 **Potential Overlap**:
-- **TMF654 Prepay Balance Management API**: Some overlap in prepaid account management, but vouchers provide a more structured approach to value distribution
-- **TMF666 Account Management API**: Overlap in account balance modifications, requiring careful coordination
+- **TMF654 Prepay Balance Management API**: Direct overlap in stored value management, requiring coordination to avoid duplication
+- **TMF666 Account Management API**: Overlap in financial account operations, requiring careful interface design
 
 #### 1.4.1.1 Integration with TMF670 Payment Method API
 
-The TMF670 Payment Method API currently includes "Voucher" as one of its payment method sub-types, which requires careful consideration for integration with this proposed Voucher Management API:
+The relationship between the Voucher Management API and TMF670 Payment Method API is now conceptually aligned, with vouchers functioning as specialized **digital payment instruments**:
+
+**Conceptual Alignment**:
+- **No Conflict**: Vouchers are consistently treated as payment instruments/financial assets, not as product offerings
+- **TMF670 Payment Method API**: Handles vouchers as payment methods during transaction processing
+- **Voucher Management API**: Provides comprehensive lifecycle management for these digital payment instruments
 
 **Architectural Relationship**:
-- **TMF670 focuses on vouchers as payment instruments**: When customers use vouchers to pay for services or products during transaction processing
-- **Voucher Management API focuses on voucher lifecycle management**: Creation, distribution, activation, tracking, and redemption workflow management
+- **Voucher Management API**: Creates, distributes, and manages digital value instruments (vouchers) throughout their lifecycle
+- **TMF670 Payment Method API**: Utilizes these vouchers as payment methods during customer transactions
+- **Unified Model**: Vouchers exist as digital financial assets that can be applied as payment instruments
 
 **Integration Strategy**:
-- The Voucher Management API creates and manages voucher entities throughout their lifecycle
-- TMF670 Payment Method API references these vouchers when they are used as payment methods during transactions
-- Voucher codes/identifiers managed by the Voucher Management API become payment method identifiers in TMF670
-
-**Complementary Functionality**:
-- **Voucher Management API**: Handles voucher creation, batch generation, distribution channels, expiration management, and redemption business rules
-- **TMF670 Payment Method API**: Handles the transactional aspect when vouchers are applied as payment during order processing or billing
+- Voucher Management API manages the financial asset lifecycle (creation, activation, distribution, expiration)
+- TMF670 references voucher assets when customers select them as payment methods
+- Real-time integration ensures voucher availability, balance verification, and redemption processing
+- Voucher Management API updates voucher status and remaining balances after TMF670 transaction processing
 
 **Data Flow Integration**:
-1. Voucher Management API creates and distributes vouchers with unique identifiers
-2. Customer receives voucher through distribution channels managed by Voucher Management API
-3. During payment processing, TMF670 references the voucher as a payment method
-4. TMF670 validates voucher availability and value with Voucher Management API
-5. Voucher Management API updates voucher status to "redeemed" and manages remaining balance if applicable
+1. Voucher Management API creates digital value instruments with unique identifiers and stored values
+2. Vouchers are distributed to customers through various channels (managed by Voucher Management API)
+3. During checkout/payment, customers select vouchers as payment methods (handled by TMF670)
+4. TMF670 validates voucher availability and applies value against transaction amounts
+5. TMF670 notifies Voucher Management API of redemption to update voucher status and remaining balance
+6. Voucher Management API maintains complete audit trail and lifecycle history
 
-This integration ensures that vouchers function both as managed business assets (through Voucher Management API) and as payment instruments (through TMF670) without creating redundancy or conflicts.
+This approach eliminates the conceptual conflict by consistently treating vouchers as digital payment instruments rather than as products to be sold.
 
 #### 1.4.2 Do you think it causes existing service dependencies to change
 
@@ -148,13 +160,14 @@ This API is proposed as a **new standalone API** that extends the capabilities o
 
 ## 2. Business Domain
 
-Within the TM Forum domain model, this API most likely sits within the **Product Domain**, specifically in the intersection of Product Management and Revenue Management capabilities. The API bridges product offering management with financial transaction processing, making it a critical component for monetization strategies in telecommunications services.
+Within the TM Forum domain model, this API most likely sits within the **Financial Account Management Domain**, specifically focusing on **Digital Asset** and **Stored Value Account** management capabilities. The API manages digital payment instruments that integrate with product purchasing and billing processes, making it a critical component for payment processing and financial transaction management in telecommunications services.
 
 The voucher management capability spans multiple domain areas:
-- **Product Domain**: For voucher definition, catalog management, and lifecycle control
+- **Financial Account Domain**: For voucher value management, balance tracking, and payment instrument lifecycle control
 - **Customer Domain**: For customer-specific voucher distribution and redemption tracking
-- **Revenue Domain**: For financial impact tracking and revenue recognition
+- **Revenue Domain**: For financial impact tracking and revenue recognition from voucher redemptions
 - **Partner Domain**: For multi-channel distribution and partner settlement processes
+- **Product Domain**: For integration with product purchasing workflows where vouchers serve as payment methods
 
 ## 3. List of Diagrams/Visuals and Tables
 
