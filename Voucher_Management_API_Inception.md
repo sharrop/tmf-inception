@@ -83,10 +83,37 @@ This API proposal **extends** existing TM Forum Open-API specifications rather t
 - **TMF632 Party Management API**: For customer and partner identification in voucher transactions
 - **TMF635 Usage Management API**: For tracking voucher usage and consumption patterns
 - **TMF678 Customer Bill Management API**: For voucher redemption impact on customer billing
+- **TMF670 Payment Method API**: Critical integration for voucher-based payment processing
 
 **Potential Overlap**:
 - **TMF654 Prepay Balance Management API**: Some overlap in prepaid account management, but vouchers provide a more structured approach to value distribution
 - **TMF666 Account Management API**: Overlap in account balance modifications, requiring careful coordination
+
+#### 1.4.1.1 Integration with TMF670 Payment Method API
+
+The TMF670 Payment Method API currently includes "Voucher" as one of its payment method sub-types, which requires careful consideration for integration with this proposed Voucher Management API:
+
+**Architectural Relationship**:
+- **TMF670 focuses on vouchers as payment instruments**: When customers use vouchers to pay for services or products during transaction processing
+- **Voucher Management API focuses on voucher lifecycle management**: Creation, distribution, activation, tracking, and redemption workflow management
+
+**Integration Strategy**:
+- The Voucher Management API creates and manages voucher entities throughout their lifecycle
+- TMF670 Payment Method API references these vouchers when they are used as payment methods during transactions
+- Voucher codes/identifiers managed by the Voucher Management API become payment method identifiers in TMF670
+
+**Complementary Functionality**:
+- **Voucher Management API**: Handles voucher creation, batch generation, distribution channels, expiration management, and redemption business rules
+- **TMF670 Payment Method API**: Handles the transactional aspect when vouchers are applied as payment during order processing or billing
+
+**Data Flow Integration**:
+1. Voucher Management API creates and distributes vouchers with unique identifiers
+2. Customer receives voucher through distribution channels managed by Voucher Management API
+3. During payment processing, TMF670 references the voucher as a payment method
+4. TMF670 validates voucher availability and value with Voucher Management API
+5. Voucher Management API updates voucher status to "redeemed" and manages remaining balance if applicable
+
+This integration ensures that vouchers function both as managed business assets (through Voucher Management API) and as payment instruments (through TMF670) without creating redundancy or conflicts.
 
 #### 1.4.2 Do you think it causes existing service dependencies to change
 
