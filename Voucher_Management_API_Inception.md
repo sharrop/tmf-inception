@@ -198,7 +198,7 @@ The voucher management capability spans multiple domain areas:
 
 ### 3.1 Voucher Lifecycle State Diagram
 
-![Voucher Lifecycle State Diagram](./voucher-lifecycle-state-diagram.puml)
+![Voucher Lifecycle State Diagram](./voucher-lifecycle-state-diagram.png)
 
 ### 3.2 Core Voucher Management Entities
 
