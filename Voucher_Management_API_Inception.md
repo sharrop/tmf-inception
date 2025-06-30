@@ -198,66 +198,7 @@ The voucher management capability spans multiple domain areas:
 
 ### 3.1 Voucher Lifecycle State Diagram
 
-```plantuml
-@startuml
-title Voucher Lifecycle State Diagram
-
-[*] --> Created
-
-state Created {
-  Created : Voucher instance created
-  Created : with initial configuration
-}
-
-state Activated {
-  Activated : Voucher is activated and
-  Activated : ready for distribution
-}
-
-state Distributed {
-  Distributed : Voucher distributed to
-  Distributed : customer or channel
-}
-
-state Redeemed {
-  Redeemed : Voucher successfully
-  Redeemed : redeemed by customer
-}
-
-state Closed {
-  Closed : Voucher lifecycle completed
-  Closed : after successful redemption
-}
-
-state Cancelled {
-  Cancelled : Voucher cancelled
-  Cancelled : before redemption
-}
-
-state Expired {
-  Expired : Voucher expired without
-  Expired : being redeemed
-}
-
-Created --> Activated : activate
-Created --> Cancelled : cancel
-
-Activated --> Distributed : distribute
-Activated --> Cancelled : cancel
-
-Distributed --> Redeemed : redeem
-Distributed --> Expired : expire
-Distributed --> Cancelled : cancel
-
-Redeemed --> Closed : close
-Redeemed --> Expired : expire
-
-Cancelled --> [*]
-Expired --> [*]
-Closed --> [*]
-
-@enduml
-```
+![Voucher Lifecycle State Diagram](./voucher-lifecycle-state-diagram.puml)
 
 ### 3.2 Core Voucher Management Entities
 
